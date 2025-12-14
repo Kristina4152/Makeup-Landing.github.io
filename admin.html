@@ -1,0 +1,1103 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Админ-панель - Makeup Landing</title>
+    <style>
+        /* Общие стили административной панели */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #4a332d;
+            color: #fff;
+            min-height: 100vh;
+        }
+
+        /* Шапка админ-панели */
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 40px;
+            background: rgba(0, 0, 0, 0.3);
+            border-bottom: 2px solid #d87f7f;
+        }
+
+        .admin-logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .admin-logo img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .admin-nav {
+            display: flex;
+            gap: 20px;
+        }
+
+        .admin-nav a {
+            color: #fff;
+            text-decoration: none;
+            padding: 8px 15px;
+            border-radius: 20px;
+            transition: all 0.3s;
+            white-space: nowrap;
+        }
+
+        .admin-nav a:hover,
+        .admin-nav a.active {
+            background: #d87f7f;
+        }
+
+        .admin-user {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logout-btn {
+            background: #ff4444;
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .logout-btn:hover {
+            background: #cc0000;
+        }
+
+        /* Основной контент админ-панели */
+        .admin-container {
+            display: flex;
+            min-height: calc(100vh - 100px);
+        }
+
+        /* Боковая панель */
+        .admin-sidebar {
+            width: 250px;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 20px 0;
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .sidebar-menu {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .menu-item {
+            padding: 15px 25px;
+            color: #fff;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s;
+            border-left: 3px solid transparent;
+        }
+
+        .menu-item:hover,
+        .menu-item.active {
+            background: rgba(216, 127, 127, 0.2);
+            border-left-color: #d87f7f;
+        }
+
+        .menu-icon {
+            font-size: 20px;
+            width: 25px;
+            text-align: center;
+        }
+
+        /* Основная область контента */
+        .admin-content {
+            flex: 1;
+            padding: 30px;
+            overflow-y: auto;
+        }
+
+        .content-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .page-title {
+            font-size: 24px;
+            color: #fff;
+        }
+
+        .add-btn {
+            background: #d87f7f;
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: background 0.3s;
+        }
+
+        .add-btn:hover {
+            background: #c76f6f;
+        }
+
+        /* Таблицы в админ-панели */
+        .admin-table {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .table-header {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            background: #d87f7f;
+            padding: 15px 20px;
+            font-weight: bold;
+            gap: 10px;
+        }
+
+        .table-row {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            padding: 15px 20px;
+            align-items: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            gap: 10px;
+        }
+
+        .table-row:last-child {
+            border-bottom: none;
+        }
+
+        .table-row:hover {
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        /* Действия в таблице */
+        .actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-edit,
+        .btn-delete {
+            padding: 6px 15px;
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.3s;
+        }
+
+        .btn-edit {
+            background: #4CAF50;
+            color: white;
+        }
+
+        .btn-edit:hover {
+            background: #45a049;
+        }
+
+        .btn-delete {
+            background: #ff4444;
+            color: white;
+        }
+
+        .btn-delete:hover {
+            background: #cc0000;
+        }
+
+        /* Модальные окна */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            display: none;
+        }
+
+        .modal {
+            background: #4a332d;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-header {
+            padding: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-title {
+            font-size: 20px;
+            color: #fff;
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 24px;
+            cursor: pointer;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: background 0.3s;
+        }
+
+        .close-modal:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .modal-body {
+            padding: 20px;
+        }
+
+        /* Формы в модальных окнах */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #fff;
+            font-size: 14px;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 12px 15px;
+            background: #f9d4d4;
+            border: 2px solid #d87f7f;
+            border-radius: 4px;
+            color: #4a332d;
+            font-size: 16px;
+        }
+
+        .form-group textarea {
+            height: 100px;
+            resize: vertical;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 15px;
+            justify-content: flex-end;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .btn-save,
+        .btn-cancel {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .btn-save {
+            background: #d87f7f;
+            color: white;
+        }
+
+        .btn-save:hover {
+            background: #c76f6f;
+        }
+
+        .btn-cancel {
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+        }
+
+        .btn-cancel:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        /* Карточки для предпросмотра */
+        .preview-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .preview-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .preview-card img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+        }
+
+        .preview-card-content {
+            padding: 15px;
+        }
+
+        .preview-card-title {
+            font-weight: 500;
+            margin-bottom: 5px;
+            color: #fff;
+        }
+
+        .preview-card-price {
+            color: #ffd700;
+            font-weight: bold;
+        }
+
+        /* Адаптивность */
+        @media (max-width: 1024px) {
+            .admin-container {
+                flex-direction: column;
+            }
+
+            .admin-sidebar {
+                width: 100%;
+                padding: 0;
+            }
+
+            .sidebar-menu {
+                flex-direction: row;
+                overflow-x: auto;
+                padding: 10px;
+            }
+
+            .menu-item {
+                white-space: nowrap;
+                border-left: none;
+                border-bottom: 3px solid transparent;
+            }
+
+            .menu-item:hover,
+            .menu-item.active {
+                border-left-color: transparent;
+                border-bottom-color: #d87f7f;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .admin-header {
+                flex-direction: column;
+                gap: 20px;
+                text-align: center;
+            }
+
+            .admin-nav {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .table-header,
+            .table-row {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+
+            .table-header {
+                display: none;
+            }
+
+            .table-row {
+                padding: 15px;
+                border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .preview-cards {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .admin-content {
+                padding: 15px;
+            }
+
+            .content-header {
+                flex-direction: column;
+                gap: 15px;
+                align-items: stretch;
+            }
+
+            .add-btn {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .actions {
+                flex-direction: column;
+            }
+
+            .btn-edit,
+            .btn-delete {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Шапка админ-панели -->
+    <header class="admin-header">
+        <div class="admin-logo">
+            <img src="img/логотип.jpg" alt="Логотип">
+            <div>
+                <h2>Makeup Landing</h2>
+                <small>Административная панель</small>
+            </div>
+        </div>
+
+        <nav class="admin-nav">
+            <a href="#services" class="active">Услуги</a>
+            <a href="#works">Работы</a>
+            <a href="#reviews">Отзывы</a>
+            <a href="#orders">Заказы</a>
+            <a href="#clients">Клиенты</a>
+        </nav>
+
+        <div class="admin-user">
+            <span>Администратор</span>
+            <button class="logout-btn" onclick="logout()">Выйти</button>
+        </div>
+    </header>
+
+    <!-- Основной контейнер -->
+    <div class="admin-container">
+        <!-- Боковая панель -->
+        <aside class="admin-sidebar">
+            <nav class="sidebar-menu">
+                <a href="#dashboard" class="menu-item active" onclick="showSection('dashboard')">
+                    <span class="menu-icon">📊</span>
+                    <span>Дашборд</span>
+                </a>
+                <a href="#manage-services" class="menu-item" onclick="showSection('manage-services')">
+                    <span class="menu-icon">💅</span>
+                    <span>Управление услугами</span>
+                </a>
+                <a href="#manage-works" class="menu-item" onclick="showSection('manage-works')">
+                    <span class="menu-icon">🖼️</span>
+                    <span>Управление работами</span>
+                </a>
+                <a href="#manage-reviews" class="menu-item" onclick="showSection('manage-reviews')">
+                    <span class="menu-icon">💬</span>
+                    <span>Управление отзывами</span>
+                </a>
+                <a href="#manage-orders" class="menu-item" onclick="showSection('manage-orders')">
+                    <span class="menu-icon">📦</span>
+                    <span>Управление заказами</span>
+                </a>
+                <a href="#manage-clients" class="menu-item" onclick="showSection('manage-clients')">
+                    <span class="menu-icon">👥</span>
+                    <span>Управление клиентами</span>
+                </a>
+                <a href="#settings" class="menu-item" onclick="showSection('settings')">
+                    <span class="menu-icon">⚙️</span>
+                    <span>Настройки сайта</span>
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Основной контент -->
+        <main class="admin-content">
+            <!-- Дашборд -->
+            <section id="dashboard" class="content-section">
+                <div class="content-header">
+                    <h1 class="page-title">Дашборд</h1>
+                </div>
+
+                <div
+                    style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 30px;">
+                    <div
+                        style="background: rgba(216, 127, 127, 0.2); padding: 20px; border-radius: 10px; text-align: center;">
+                        <div style="font-size: 36px; font-weight: bold; color: #ffd700;">12</div>
+                        <div>Услуг</div>
+                    </div>
+                    <div
+                        style="background: rgba(216, 127, 127, 0.2); padding: 20px; border-radius: 10px; text-align: center;">
+                        <div style="font-size: 36px; font-weight: bold; color: #ffd700;">8</div>
+                        <div>Работ в портфолио</div>
+                    </div>
+                    <div
+                        style="background: rgba(216, 127, 127, 0.2); padding: 20px; border-radius: 10px; text-align: center;">
+                        <div style="font-size: 36px; font-weight: bold; color: #ffd700;">23</div>
+                        <div>Отзывов</div>
+                    </div>
+                    <div
+                        style="background: rgba(216, 127, 127, 0.2); padding: 20px; border-radius: 10px; text-align: center;">
+                        <div style="font-size: 36px; font-weight: bold; color: #ffd700;">5</div>
+                        <div>Новых заказов</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Управление услугами (CRUD) -->
+            <section id="manage-services" class="content-section" style="display: none;">
+                <div class="content-header">
+                    <h1 class="page-title">Управление услугами</h1>
+                    <button class="add-btn" onclick="openAddServiceModal()">
+                        <span>+</span>
+                        <span>Добавить услугу</span>
+                    </button>
+                </div>
+
+                <!-- Таблица услуг -->
+                <div class="admin-table">
+                    <div class="table-header">
+                        <div>Название</div>
+                        <div>Категория</div>
+                        <div>Цена</div>
+                        <div>Статус</div>
+                        <div>Действия</div>
+                    </div>
+
+                    <!-- Пример строки услуги -->
+                    <div class="table-row">
+                        <div>Перманентный макияж бровей</div>
+                        <div>Брови</div>
+                        <div>7000 руб.</div>
+                        <div><span style="color: #4CAF50;">Активна</span></div>
+                        <div class="actions">
+                            <button class="btn-edit" onclick="editService(1)">Изменить</button>
+                            <button class="btn-delete" onclick="deleteService(1)">Удалить</button>
+                        </div>
+                    </div>
+
+                    <div class="table-row">
+                        <div>Перманентный макияж губ</div>
+                        <div>Губы</div>
+                        <div>7000 руб.</div>
+                        <div><span style="color: #4CAF50;">Активна</span></div>
+                        <div class="actions">
+                            <button class="btn-edit" onclick="editService(2)">Изменить</button>
+                            <button class="btn-delete" onclick="deleteService(2)">Удалить</button>
+                        </div>
+                    </div>
+
+                    <div class="table-row">
+                        <div>Межресничный татуаж</div>
+                        <div>Глаза</div>
+                        <div>5000 руб.</div>
+                        <div><span style="color: #4CAF50;">Активна</span></div>
+                        <div class="actions">
+                            <button class="btn-edit" onclick="editService(3)">Изменить</button>
+                            <button class="btn-delete" onclick="deleteService(3)">Удалить</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Управление работами (CRUD) -->
+            <section id="manage-works" class="content-section" style="display: none;">
+                <div class="content-header">
+                    <h1 class="page-title">Управление работами</h1>
+                    <button class="add-btn" onclick="openAddWorkModal()">
+                        <span>+</span>
+                        <span>Добавить работу</span>
+                    </button>
+                </div>
+
+                <div class="preview-cards">
+                    <!-- Пример карточки работы -->
+                    <div class="preview-card">
+                        <img src="img/брови1.jpg" alt="Работа">
+                        <div class="preview-card-content">
+                            <div class="preview-card-title">Брови до/после</div>
+                            <div>Категория: Брови</div>
+                            <div class="actions" style="margin-top: 10px;">
+                                <button class="btn-edit" style="padding: 5px 10px;">Изменить</button>
+                                <button class="btn-delete" style="padding: 5px 10px;">Удалить</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="preview-card">
+                        <img src="img/губы.jpg" alt="Работа">
+                        <div class="preview-card-content">
+                            <div class="preview-card-title">Губы объемные</div>
+                            <div>Категория: Губы</div>
+                            <div class="actions" style="margin-top: 10px;">
+                                <button class="btn-edit" style="padding: 5px 10px;">Изменить</button>
+                                <button class="btn-delete" style="padding: 5px 10px;">Удалить</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Управление отзывами (CRUD) -->
+            <section id="manage-reviews" class="content-section" style="display: none;">
+                <div class="content-header">
+                    <h1 class="page-title">Управление отзывами</h1>
+                    <button class="add-btn" onclick="openAddReviewModal()">
+                        <span>+</span>
+                        <span>Добавить отзыв</span>
+                    </button>
+                </div>
+
+                <div class="admin-table">
+                    <div class="table-header">
+                        <div>Клиент</div>
+                        <div>Текст отзыва</div>
+                        <div>Дата</div>
+                        <div>Рейтинг</div>
+                        <div>Действия</div>
+                    </div>
+
+                    <div class="table-row">
+                        <div>Анна</div>
+                        <div>Отличное решение для тех, кто устал рисовать брови каждый день...</div>
+                        <div>15.11.2024</div>
+                        <div>★★★★★</div>
+                        <div class="actions">
+                            <button class="btn-edit">Изменить</button>
+                            <button class="btn-delete">Удалить</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Управление заказами (CRUD) -->
+            <section id="manage-orders" class="content-section" style="display: none;">
+                <div class="content-header">
+                    <h1 class="page-title">Управление заказами</h1>
+                </div>
+
+                <div class="admin-table">
+                    <div class="table-header">
+                        <div>ID заказа</div>
+                        <div>Клиент</div>
+                        <div>Услуга</div>
+                        <div>Сумма</div>
+                        <div>Статус</div>
+                    </div>
+
+                    <div class="table-row">
+                        <div>#001</div>
+                        <div>Кристина Петрова</div>
+                        <div>Перманентный макияж бровей</div>
+                        <div>7000 руб.</div>
+                        <div>
+                            <select
+                                style="background: #4a332d; color: white; border: 1px solid #d87f7f; padding: 5px; border-radius: 4px;">
+                                <option>Новый</option>
+                                <option>Подтвержден</option>
+                                <option selected>Выполняется</option>
+                                <option>Завершен</option>
+                                <option>Отменен</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Управление клиентами (CRUD) -->
+            <section id="manage-clients" class="content-section" style="display: none;">
+                <div class="content-header">
+                    <h1 class="page-title">Управление клиентами</h1>
+                </div>
+
+                <div class="admin-table">
+                    <div class="table-header">
+                        <div>Имя</div>
+                        <div>Email</div>
+                        <div>Телефон</div>
+                        <div>Заказов</div>
+                        <div>Действия</div>
+                    </div>
+
+                    <div class="table-row">
+                        <div>Кристина Петрова</div>
+                        <div>kristina@example.com</div>
+                        <div>+7 (905) 162-69-86</div>
+                        <div>3</div>
+                        <div class="actions">
+                            <button class="btn-edit">Просмотр</button>
+                            <button class="btn-delete">Удалить</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Настройки сайта -->
+            <section id="settings" class="content-section" style="display: none;">
+                <div class="content-header">
+                    <h1 class="page-title">Настройки сайта</h1>
+                </div>
+
+                <div style="background: rgba(255, 255, 255, 0.05); padding: 30px; border-radius: 10px;">
+                    <div class="form-group">
+                        <label>Название сайта</label>
+                        <input type="text" value="Makeup Landing" style="background: #f9d4d4; color: #4a332d;">
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Телефон</label>
+                            <input type="text" value="+7 (905) 162-69-86" style="background: #f9d4d4; color: #4a332d;">
+                        </div>
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input type="email" value="info@makeup-landing.ru"
+                                style="background: #f9d4d4; color: #4a332d;">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Адрес</label>
+                        <input type="text" value="г. Усолье-Сибирское, ул. Фабрициуса, 7к1"
+                            style="background: #f9d4d4; color: #4a332d;">
+                    </div>
+
+                    <div class="form-actions">
+                        <button class="btn-save">Сохранить изменения</button>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Модальное окно добавления/редактирования услуги -->
+    <div class="modal-overlay" id="serviceModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 class="modal-title">Добавить услугу</h2>
+                <button class="close-modal" onclick="closeModal('serviceModal')">×</button>
+            </div>
+            <div class="modal-body">
+                <form id="serviceForm">
+                    <div class="form-group">
+                        <label for="serviceName">Название услуги</label>
+                        <input type="text" id="serviceName" required>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="serviceCategory">Категория</label>
+                            <select id="serviceCategory" required>
+                                <option value="">Выберите категорию</option>
+                                <option value="brows">Брови</option>
+                                <option value="lips">Губы</option>
+                                <option value="eyes">Глаза</option>
+                                <option value="correction">Коррекция</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="servicePrice">Цена (руб.)</label>
+                            <input type="number" id="servicePrice" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="serviceDescription">Описание</label>
+                        <textarea id="serviceDescription" required></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="serviceImage">URL изображения</label>
+                        <input type="text" id="serviceImage">
+                    </div>
+
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox" id="servicePopular">
+                            Показывать в популярных услугах
+                        </label>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" class="btn-cancel" onclick="closeModal('serviceModal')">Отмена</button>
+                        <button type="submit" class="btn-save">Сохранить услугу</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно добавления/редактирования работы -->
+    <div class="modal-overlay" id="workModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 class="modal-title">Добавить работу</h2>
+                <button class="close-modal" onclick="closeModal('workModal')">×</button>
+            </div>
+            <div class="modal-body">
+                <form id="workForm">
+                    <div class="form-group">
+                        <label for="workTitle">Название работы</label>
+                        <input type="text" id="workTitle" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="workCategory">Категория</label>
+                        <select id="workCategory" required>
+                            <option value="">Выберите категорию</option>
+                            <option value="brows">Брови</option>
+                            <option value="lips">Губы</option>
+                            <option value="eyes">Глаза</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="workImage">URL изображения</label>
+                        <input type="text" id="workImage" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="workDescription">Описание (необязательно)</label>
+                        <textarea id="workDescription"></textarea>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" class="btn-cancel" onclick="closeModal('workModal')">Отмена</button>
+                        <button type="submit" class="btn-save">Сохранить работу</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно добавления/редактирования отзыва -->
+    <div class="modal-overlay" id="reviewModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 class="modal-title">Добавить отзыв</h2>
+                <button class="close-modal" onclick="closeModal('reviewModal')">×</button>
+            </div>
+            <div class="modal-body">
+                <form id="reviewForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="reviewAuthor">Имя клиента</label>
+                            <input type="text" id="reviewAuthor" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="reviewRating">Рейтинг</label>
+                            <select id="reviewRating" required>
+                                <option value="5">★★★★★</option>
+                                <option value="4">★★★★☆</option>
+                                <option value="3">★★★☆☆</option>
+                                <option value="2">★★☆☆☆</option>
+                                <option value="1">★☆☆☆☆</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="reviewText">Текст отзыва</label>
+                        <textarea id="reviewText" required></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="reviewImage">URL изображения (необязательно)</label>
+                        <input type="text" id="reviewImage">
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" class="btn-cancel" onclick="closeModal('reviewModal')">Отмена</button>
+                        <button type="submit" class="btn-save">Сохранить отзыв</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Переключение между секциями
+        function showSection(sectionId) {
+            // Скрыть все секции
+            document.querySelectorAll('.content-section').forEach(section => {
+                section.style.display = 'none';
+            });
+
+            // Показать выбранную секцию
+            document.getElementById(sectionId).style.display = 'block';
+
+            // Обновить активный пункт меню
+            document.querySelectorAll('.menu-item').forEach(item => {
+                item.classList.remove('active');
+            });
+
+            document.querySelector(`.menu-item[onclick="showSection('${sectionId}')"]`).classList.add('active');
+        }
+
+        // Работа с модальными окнами
+        function openAddServiceModal() {
+            document.getElementById('serviceModal').style.display = 'flex';
+            document.getElementById('serviceForm').reset();
+            document.querySelector('#serviceModal .modal-title').textContent = 'Добавить услугу';
+        }
+
+        function editService(id) {
+            document.getElementById('serviceModal').style.display = 'flex';
+            document.querySelector('#serviceModal .modal-title').textContent = 'Редактировать услугу';
+
+            // В реальном проекте здесь будет загрузка данных услуги по ID
+            document.getElementById('serviceName').value = 'Перманентный макияж бровей';
+            document.getElementById('serviceCategory').value = 'brows';
+            document.getElementById('servicePrice').value = '7000';
+            document.getElementById('serviceDescription').value = 'Забудьте о ежедневном рисовании бровей! Получите безупречные, естественно выглядящие брови...';
+            document.getElementById('serviceImage').value = 'img/brows1.jpg';
+            document.getElementById('servicePopular').checked = true;
+        }
+
+        function openAddWorkModal() {
+            document.getElementById('workModal').style.display = 'flex';
+            document.getElementById('workForm').reset();
+        }
+
+        function openAddReviewModal() {
+            document.getElementById('reviewModal').style.display = 'flex';
+            document.getElementById('reviewForm').reset();
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        // Обработка форм
+        document.getElementById('serviceForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const serviceData = {
+                name: document.getElementById('serviceName').value,
+                category: document.getElementById('serviceCategory').value,
+                price: document.getElementById('servicePrice').value,
+                description: document.getElementById('serviceDescription').value,
+                image: document.getElementById('serviceImage').value,
+                popular: document.getElementById('servicePopular').checked
+            };
+
+            // В реальном проекте здесь будет сохранение на сервере
+            console.log('Сохранение услуги:', serviceData);
+            alert('Услуга сохранена!');
+            closeModal('serviceModal');
+        });
+
+        document.getElementById('workForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const workData = {
+                title: document.getElementById('workTitle').value,
+                category: document.getElementById('workCategory').value,
+                image: document.getElementById('workImage').value,
+                description: document.getElementById('workDescription').value
+            };
+
+            console.log('Сохранение работы:', workData);
+            alert('Работа сохранена!');
+            closeModal('workModal');
+        });
+
+        document.getElementById('reviewForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const reviewData = {
+                author: document.getElementById('reviewAuthor').value,
+                rating: document.getElementById('reviewRating').value,
+                text: document.getElementById('reviewText').value,
+                image: document.getElementById('reviewImage').value
+            };
+
+            console.log('Сохранение отзыва:', reviewData);
+            alert('Отзыв сохранен!');
+            closeModal('reviewModal');
+        });
+
+        // Удаление элементов
+        function deleteService(id) {
+            if (confirm('Вы уверены, что хотите удалить эту услугу?')) {
+                // В реальном проекте здесь будет удаление на сервере
+                console.log('Удаление услуги с ID:', id);
+                alert('Услуга удалена!');
+            }
+        }
+
+        function deleteWork(id) {
+            if (confirm('Вы уверены, что хотите удалить эту работу?')) {
+                console.log('Удаление работы с ID:', id);
+                alert('Работа удалена!');
+            }
+        }
+
+        function logout() {
+            if (confirm('Вы уверены, что хотите выйти из админ-панели?')) {
+                window.location.href = 'index.html';
+            }
+        }
+
+        // Закрытие модальных окон при клике вне их
+        window.onclick = function (event) {
+            if (event.target.classList.contains('modal-overlay')) {
+                event.target.style.display = 'none';
+            }
+        }
+
+        // Инициализация
+        document.addEventListener('DOMContentLoaded', function () {
+            // Показываем дашборд по умолчанию
+            showSection('dashboard');
+        });
+    </script>
+</body>
+
+</html>
