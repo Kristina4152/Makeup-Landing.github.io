@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Makeup Landing</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    html {
+      scroll-behavior: smooth;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="hero" id="main">
+    <img src="img/главная.jpg" alt="procedura" />
+    <header>
+      <div class="logo">
+        <img src="img/логотип.jpg" alt="logo">
+      </div>
+      <nav class="center-nav">
+        <!-- Обновляем ссылки с указанием полного пути к файлам -->
+        <a href="login.html">Вход/Регистрация</a>
+        <a href="cart.html">Корзина</a>
+        <a href="index.html#main">Главная</a>
+        <a href="index.html#popular-services">Популярные услуги</a>
+        <a href="index.html#all-services">Все услуги</a>
+        <a href="index.html#best-works">Лучшие работы</a>
+        <a href="index.html#reviews">Отзывы</a>
+        <a href="index.html#contacts">Контакты</a>
+        <!-- Добавляем скрытую ссылку для администратора -->
+        <a href="admin-login.html" class="admin-link" style="font-size: 10px; opacity: 0.5;">Admin</a>
+      </nav>
+    </header>
+  </div>
+
+  <section class="benefits">
+    <div class="benefit-item">
+      <div>
+        <img src="img/галочка.svg" alt="галочка">
+      </div>
+      <h3>Экономия времени, уверенность и безупречный вид 24/7</h3>
+      <p>Ваш макияж всегда идеален, независимо от обстоятельств</p>
+    </div>
+    <div class="benefit-item">
+      <div>
+        <img src="img/галочка.svg" alt="галочка">
+      </div>
+      <h3>Подчеркните свою природную красоту</h3>
+      <p>Мы поможем вам скорректировать и подчеркнуть лучшие черты лица</p>
+    </div>
+    <div class="benefit-item">
+      <div>
+        <img src="img/галочка.svg" alt="галочка">
+      </div>
+      <h3>Инвестируйте в свою безупречность</h3>
+      <p>Перманентный макияж — это долговременное решение для современной женщины</p>
+    </div>
+  </section>
+
+  <section class="popular" id="popular-services">
+    <h2>ПОПУЛЯРНЫЕ УСЛУГИ</h2>
+
+    <div class="service-item">
+      <div class="service-image">
+        <img src="img/brows1.jpg" alt="brows">
+      </div>
+      <div class="service-content">
+        <h3>Перманентный макияж бровей</h3>
+        <p>Забудьте о ежедневном рисовании бровей! Получите безупречные, естественно выглядящие брови, экономя до 7
+          минут каждое утро и наслаждаясь идеальной формой до 18 месяцев, которая не смывается от воды и не требует
+          коррекции в течение дня.</p>
+        <button class="buy-button">Купить</button>
+        <p class="price">Цена: 7000 руб.</p>
+      </div>
+    </div>
+
+    <div class="service-item reverse">
+      <div class="service-image">
+        <img src="img/губы основа.jpg" alt="lips">
+      </div>
+      <div class="service-content">
+        <h3>Перманентный макияж губ</h3>
+        <p>Попрощайтесь с карандашом и помадой! Наслаждайтесь безупречно контурированными и яркими губами, экономя до 5
+          минут каждое утро на макияже, и сохраняя эффектный вид до 2 лет, без страха, что цвет сотрется или смажется.
+        </p>
+        <button class="buy-button">Купить</button>
+        <p class="price">Цена: 7000 руб.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Добавленный раздел "Все услуги" -->
+  <section class="all-services" id="all-services">
+    <h2>ВСЕ УСЛУГИ</h2>
+    <div class="services-grid">
+      <div class="service-card">
+        <img src="img/brows1.jpg" alt="Брови">
+        <h3>Перманентный макияж бровей</h3>
+        <p>От 7000 руб.</p>
+        <button class="buy-button">Подробнее</button>
+      </div>
+      <div class="service-card">
+        <img src="img/губы основа.jpg" alt="Губы">
+        <h3>Перманентный макияж губ</h3>
+        <p>От 7000 руб.</p>
+        <button class="buy-button">Подробнее</button>
+      </div>
+      <div class="service-card">
+        <img src="img/брови1.jpg" alt="Межресничка">
+        <h3>Межресничный татуаж</h3>
+        <p>От 5000 руб.</p>
+        <button class="buy-button">Подробнее</button>
+      </div>
+      <div class="service-card">
+        <img src="img/отзыв1.jpg" alt="Коррекция">
+        <h3>Коррекция перманента</h3>
+        <p>От 3000 руб.</p>
+        <button class="buy-button">Подробнее</button>
+      </div>
+      <div class="service-card">
+        <img src="img/отзыв2.jpg" alt="Удаление">
+        <h3>Удаление татуажа</h3>
+        <p>От 8000 руб.</p>
+        <button class="buy-button">Подробнее</button>
+      </div>
+      <div class="service-card">
+        <img src="img/отзыв.jpg" alt="Консультация">
+        <h3>Консультация мастера</h3>
+        <p>Бесплатно</p>
+        <button class="buy-button">Записаться</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="bestworks" id="best-works">
+    <h2>ЛУЧШИЕ РАБОТЫ</h2>
+    <div class="works-grid">
+      <img src="img/брови1.jpg" alt="work 1" />
+      <img src="img/губы.jpg" alt="work 2" />
+      <img src="img/брови3.jpg" alt="work 3" />
+      <img src="img/губы1.jpg" alt="work 4" />
+      <img src="img/брови.jpg" alt="work 5" />
+      <img src="img/губы2.jpg" alt="work 6" />
+      <img src="img/брови2.jpg" alt="work 7" />
+      <img src="img/губы3.jpg" alt="work 8" />
+    </div>
+  </section>
+
+  <section class="reviews" id="reviews">
+    <h2>ОТЗЫВЫ</h2>
+    <div class="reviews-container">
+      <div class="review-item">
+        <img src="img/отзыв1.jpg" alt="review 1" />
+        <p>Отличное решение для тех, кто устал рисовать брови каждый день. Результат превзошел все ожидания!</p>
+      </div>
+      <div class="review-item">
+        <img src="img/отзыв2.jpg" alt="review 2" />
+        <p>Я прошла процедуру на губы и брови. Теперь мой образ всегда завершён, даже без макияжа. Спасибо!</p>
+      </div>
+      <div class="review-item">
+        <img src="img/отзыв.jpg" alt="review 3" />
+        <p>Теперь я могу есть, петь и не волноваться о макияже. Это настоящая свобода для активной женщины!</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Обновленная секция контактов -->
+  <section class="contacts-section" id="contacts">
+    <h2>КОНТАКТЫ</h2>
+
+    <!-- Контактная информация вертикально -->
+    <div class="contacts-vertical">
+      <div class="contact-block">
+        <h3>Звоните</h3>
+        <p class="contact-text"><strong>+7 (905) 162-69-86</strong></p>
+      </div>
+
+      <div class="contact-block">
+        <h3>Пишите</h3>
+        <p class="contact-text"><strong>info@makeup-landing.ru</strong></p>
+      </div>
+
+      <div class="contact-block">
+        <h3>Приезжайте</h3>
+        <p class="contact-text">г. Усолье-Сибирское, ул. Фабрициуса, 7к1</p>
+      </div>
+
+      <div class="contact-block">
+        <h3>Часы работы</h3>
+        <p class="contact-text">Пн-Сб: 10:00 - 20:00<br>Вс: выходной</p>
+      </div>
+    </div>
+
+    <!-- Карта под контактами -->
+    <div class="contact-map">
+      <iframe
+        src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d7666.123569942804!2d103.64334884006101!3d52.75605084890921!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sru!2sru!4v1765532958265!5m2!1sru!2sru"
+        allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+      </iframe>
+    </div>
+
+    <!-- Форма обратной связи -->
+    <div class="feedback-form">
+      <h3>Форма обратной связи</h3>
+      <form>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="name">Ваше имя</label>
+            <input type="text" id="name" name="name" placeholder="Введите ваше имя">
+          </div>
+          <div class="form-group">
+            <label for="phone">Ваш телефон</label>
+            <input type="tel" id="phone" name="phone" placeholder="+7 (___) ___-__-__">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="email">Ваш email</label>
+            <input type="email" id="email" name="email" placeholder="example@mail.ru">
+          </div>
+          <div class="form-group">
+            <label for="service">Услуга</label>
+            <input type="text" id="service" name="service" placeholder="Перманентный макияж бровей">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group" style="flex: 1;">
+            <label for="message">Сообщение</label>
+            <textarea id="message" name="message" placeholder="Опишите ваши пожелания..."></textarea>
+          </div>
+        </div>
+        <button type="submit" class="submit-btn">Отправить заявку</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- Футер -->
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="footer-top">
+        <div class="footer-phone">+7 (905) 162-69-86</div>
+        <nav class="footer-nav">
+          <!-- Обновляем ссылки в футере -->
+          <a href="login.html">Вход/Регистрация</a>
+          <a href="cart.html">Корзина</a>
+          <a href="index.html#main">Главная</a>
+          <a href="index.html#popular-services">Популярные услуги</a>
+          <a href="index.html#all-services">Все услуги</a>
+          <a href="index.html#best-works">Лучшие работы</a>
+          <a href="index.html#reviews">Отзывы</a>
+          <a href="index.html#contacts">Контакты</a>
+          <!-- Ссылка для администратора в футере -->
+          <a href="admin-login.html" style="font-size: 10px; opacity: 0.5;">Для администратора</a>
+        </nav>
+      </div>
+      <div class="footer-bottom">
+        <div class="footer-social">
+          <a href="#" class="social-icon">
+            <img src="img/icons8-facebook-новый-50.png" alt="Facebook">
+          </a>
+          <a href="#" class="social-icon">
+            <img src="img/icons8-телеграм-50.png" alt="Telegram">
+          </a>
+          <a href="#" class="social-icon">
+            <img src="img/icons8-vk-50.png" alt="VK">
+          </a>
+          <a href="#" class="social-icon">
+            <img src="img/icons8-whatsapp-32.png" alt="WhatsApp">
+          </a>
+          <a href="#" class="social-icon">
+            <img src="img/icons8-instagram-32.png" alt="Instagram">
+          </a>
+        </div>
+        <div class="copyright">© 2024 Makeup Landing. Все права защищены.</div>
+      </div>
+    </div>
+  </footer>
+  <!-- Общий JavaScript для всех страниц -->
+  <script src="js/common.js"></script>
+  <!-- JavaScript для главной страницы -->
+  <script src="js/main.js"></script>
+</body>
+
+</html>
